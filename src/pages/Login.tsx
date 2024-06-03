@@ -1,39 +1,57 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
-interface LoginProps {
-    onLogin: (email: string, password: string, redirectToDashboard: () => void) => void;
-}
+type FormData = {
+    email: string;
+    password: string;
+};
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const Login = () => {
+    const {
+        register,
+        handleSubmit,
+    } = useForm<FormData>();
     const navigate = useNavigate();
-
-    const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        onLogin(email, password, redirectToDashboard);
-        localStorage.setItem('email', email);
-        sessionStorage.setItem('password', password);
-        redirectToDashboard();
+    const [formData, setFormData] = useState<FormData>({
+        email: "admin@admin.com",
+        password: "admin123"
+    });
+    const onSubmit = (data: FormData) => {
+        console.log("Form data submitted:", data);
+        if (data.email === formData.email && data.password === formData.password) {
+            Cookies.set("isLoggedIn", "true");
+            navigate('/dashboard');
+            console.log("login success");
+        } else {
+            console.log("Invalid email or password");
+        }
+        setFormData(data);
     };
-
-    const redirectToDashboard = () => {
-        navigate('/dashboard');
-    };
-
     return (
-        <div className='container'>
-            <h2>Login Page</h2>
-            <form onSubmit={handleLogin}>
-                <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+        <div className="container">
+            <form className="" onSubmit={handleSubmit(onSubmit)}>
+                <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        aria-describedby="emailHelp"
+                        {...register("email", { required: true })}
+                        defaultValue={formData.email}
+                    />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <input
+                        type="password"
+                        className="form-control"
+                        id="password"
+                        {...register("password", { required: true })}
+                        defaultValue={formData.password}
+                    />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
