@@ -7,7 +7,6 @@ import Cookies from 'js-cookie';
 
 const Dashboard: React.FC = () => {
     const navigate = useNavigate();
-
     useEffect(() => {
         const isLoggedIn = Cookies.get("isLoggedIn");
         if (isLoggedIn !== "true") {
@@ -15,15 +14,15 @@ const Dashboard: React.FC = () => {
         }
     }, [navigate]);
 
-    const handleLogout = () => {        
-        Cookies.remove("isLoggedIn");        
+    const handleLogout = () => {
+        Cookies.remove("isLoggedIn");
         navigate('/');
     };
 
     return (
         <div className='container'>
-            <h1>Dashboard</h1>
-            <button onClick={handleLogout}>Logout</button>
+            <h2 className='title'>Dashboard  <button style={{ float: 'right', fontSize: '16px' }} onClick={handleLogout}>Logout</button></h2>
+
             <ToyWrapper />
             <QuoteWrapper />
             <SportsWrapper />

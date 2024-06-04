@@ -4,8 +4,8 @@ const Home: React.FC = () => {
     const navigate = useNavigate()
     return (
         <div className='container'>
-            <h1>Home</h1>
-            <button onClick={() => navigate('/login')}>Login</button>
+            <h2 className='title'>Home  <button onClick={() => navigate('/login')} style={{ float: 'right', fontSize: '16px', marginTop: '10px' }}>Login</button></h2>
+
         </div>
     );
 };

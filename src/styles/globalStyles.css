@@ -164,6 +164,7 @@ h2.title {
     font-weight: 600;
     font-size: 24px;
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .quote__wrapper {
@@ -171,4 +172,12 @@ h2.title {
     overflow-y: hidden;
     height: 100%;
     margin-bottom: 20px;
+}
+
+button {
+    border: 1px solid #4bdf81;
+    border-radius: 4px;
+    padding: 4px 10px;
+    color: #4bdf81;
+    background-color: transparent;
 }
